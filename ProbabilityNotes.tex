@@ -1,0 +1,109 @@
+\documentclass[11pt, oneside]{book}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+
+\title{Probability Notes}
+\author{Michael Conlen}
+%\date{}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter{Introduction}
+\section{Sample Spaces and Events}
+\begin{definition}[Sample Space]
+	The set of all possible outcomes of an experiment. 
+\end{definition}
+
+\begin{example}
+	For a coin flip the \emph{sample space} is 
+	\begin{alignat}{4}
+		S&=\{H, T\}
+	\end{alignat}
+\end{example}
+\begin{example}
+	For a $1D6$ die roll the \emph{sample space} is
+	\begin{alignat}{4}
+		S&=\{1, 2, 3, 4, 5, 6\}
+	\end{alignat}
+\end{example}
+
+\begin{definition}[Event]
+	Any subset $E$ of a sample space $S$.
+\end{definition}
+
+\begin{remark}
+	For any two events $E$ and $F$ of a sample space $S$ we define a new event $E\cup F$ to consist of all outcomes that are either in $E$ or $F$; that is
+	\begin{alignat}{4}
+		E\cup F&=\{x\in S\mid x\in E \vee x\in F\}
+	\end{alignat}
+\end{remark}
+
+\begin{remark}
+	For any two events $E$ and $F$ of a sample space $S$ we define a new event $EF$, sometimes written $E\cap F$ and referred to as the intersection of $E$ and $F$, as all outcomes which are both in $E$ and $F$; that is, 
+	\begin{alignat}{4}
+		EF&=\{x\in S\mid x\in E \wedge x\in F\}
+	\end{alignat}
+\end{remark}
+
+\begin{definition}[Null Event]
+	For any sample space $S$ the null event is an event with no outcomes and is denoted $\emptyset$.
+\end{definition}
+
+\begin{example}
+	Let $S=\{H, T\}$ and let $E=\{H\}$ and $F=\{T\}$ be events; then the intersection $EF=\emptyset$ is a null event. 
+\end{example}
+
+\begin{remark}
+	We define the union and intersection of multiple events, $\cup_{n=1}^\infty E_n$ and $\cap_{n=1}^\infty E_n$ as expected. 
+\end{remark}
+
+\begin{definition}[Complement]
+	Let $E$ be an event in a sample space $S$, then the complement of $E$, denoted $E^C$ is 
+	\begin{alignat}{4}
+		E^C&=\{x\in S\mid x\not\in E\}
+	\end{alignat}
+\end{definition}
+
+\section{Probabilities Defined on Events}
+
+\begin{definition}[Probability]
+	Let $S$ be a sample space; let $P$ be a function on $\mathcal{P}(S)$ such that for all $E\in\mathcal{P}(S)$ the function $P$ satisfies
+	\begin{enumerate}
+		\item $0\leq P(E)\leq 1$
+		\item $P(S)=1$
+		\item For any sequence of events $\{E_n\}$ which are mutually exclusive 
+			\begin{alignat}{4}
+				P\left(\bigcup_{n=1}^\infty E_n\right)=\sum_{n=1}^\infty P(E_n)
+			\end{alignat}
+	\end{enumerate}
+	We refer to $P(E)$ as the probability of the event $E$. 
+\end{definition}
+
+\begin{remark}
+	Note that since, for some sample space $S$ and event $E$, that $S=E\cup E^C$ 
+	\begin{alignat}{4}
+		1&=P(S) \\
+			&=P\left(E\cup E^C\right) \\
+			&=P(E)+P\left(E^C\right)
+	\end{alignat}
+	this implies that
+	\begin{alignat}{4}
+		P\left(E^C\right)=1-P(E)
+	\end{alignat}
+\end{remark}
+
+\begin{remark}
+	The previous remark implies that $P(\emptyset)=0$
+\end{remark}
+\end{document}  
