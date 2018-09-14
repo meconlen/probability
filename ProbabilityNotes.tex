@@ -10,6 +10,9 @@
 \newtheorem{definition}{Definition}
 \newtheorem{example}{Example}
 \newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{problem}{Problem}
 
 \title{Probability Notes}
 \author{Michael Conlen}
@@ -104,6 +107,232 @@
 \end{remark}
 
 \begin{remark}
-	The previous remark implies that $P(\emptyset)=0$
+	The previous remark implies that $P(\emptyset)=P\left(S^C\right)=1-1=0$
 \end{remark}
+
+\begin{remark}
+	Let $E$ and $F$ be events in a sample space $S$. We wish to compute $P(E\cup F)$. Consider $P(E)$ and $P(F)$, for any $x\in EF$ we find that $x$ is counted once in each of $P(E)$ and $P(F)$; that is
+	\begin{alignat}{4}
+		P(E)+P(F)=P(E\cup F)-P(EF)
+	\end{alignat}
+	therefore 
+	\begin{alignat}{4}
+		P(E\cup F)=P(E)+P(F)-P(EF)
+	\end{alignat}
+
+\end{remark}
+
+\begin{lemma}
+	Intersection is right (and left) distributive over unions. 
+	\begin{proof}
+		Let $E$, $F$, $G$ be events in a sample space $S$; we wish to show
+		\begin{alignat}{4}
+			(E\cup F)G=EG\cup FG
+		\end{alignat}
+		
+		Let $x\in (E\cup F)G$ then $x\in E\cup F$ and $x\in G$. WLOG let $e\in F$; thus $x\in EG\implies x\in G\cup FG$. 
+		
+		Conversely let $x\in EG\cup FG$. WLOG say $x\in EG$; then $x\in E\implies x\in E\cup F$ and $x\in G$ thus $x\in (E\cup F)G$. 
+	\end{proof}
+\end{lemma}
+
+\begin{theorem}[Inclusion Exclusion]
+	Let $S$ be a sample space and let $E$, $F$, $G$ be events, then 
+	\begin{alignat}{4}
+		P(E\cup F\cup G)=P(E)+P(F)+P(G)-P(EF)-P(EG)+P(EFG)
+	\end{alignat}
+	\begin{proof}
+		We compute
+		\begin{alignat*}{4}
+			P(E\cup F \cup G)&=P((E\cup F)\cup G) \\
+				&=P(E\cup F)+P(G)-P((E\cup F)G) \\
+				&=P(E)+P(F)-P(EF)+P(G)-P((E\cup F)G) \\
+				&=P(E)+P(F)-P(EF)+P(G)-P((EG\cup FG)) \\
+				&=P(E)+P(F)-P(EF)+P(G)-\left[P(EG) + P(FG) - P(EGFG)\right] \\
+				&=P(E)+P(F)-P(EF)+P(G)-\left[P(EG) + P(FG) - P(EFG)\right] \\
+				&=P(E)+P(F)-P(EF)+P(G)-P(EG)-P(FG)+P(EFG) \\
+				&=P(E)+P(F)+P(G)-P(EF)-P(EG)-P(FG)+P(EFG)
+		\end{alignat*}
+	\end{proof}
+\end{theorem}
+
+\begin{remark}
+	Note that the inclusion exclusion principal can be extended to arbitrary unions by adding the intersections of odd combinations of sets and subtracting intersections of even combinations of sets. 
+\end{remark}
+
+\section{Conditional Probabilities}
+\begin{definition}[Conditional Probability]
+	Let $S$ be a sample space and let $E$ and $F$ be events. We wish to denote the probability that event $E$ occurred given that $F$ occurred; we write $P(E\mid F)$.
+\end{definition}
+
+\begin{remark}
+	We can compute $P(E\mid F)$ by realizing that since $F$ has occurred we can consider the event $EF$ as all those containing $E$ and $F$ and limit our sample space to $F$; thus
+	\begin{alignat}{4}
+		P(E\mid F)=\frac{P(EF)}{P(F)}
+	\end{alignat} 
+\end{remark}
+
+\section{Independent Events}
+
+\begin{definition}[Independent Events]
+	Two events $E$ and $F$ of a sample space $S$ are said to be independent if $P(EF)=P(E)P(F)$
+\end{definition}
+
+\begin{definition}[Independent Trials]
+	Suppose that a sequence of experiments which result in success or failure is to be performed. Let $E_i$ denote the event that the $i^{th}$ experiment is a success. If for all $i_k$
+	\begin{alignat}{4}
+		P(E_{i_1}E_{i_2}\dots E_{i_n})=\prod_{j=1}^nP(E_{i_j}) 
+	\end{alignat}
+	then the sequence of experiments consists of independent trials. 
+\end{definition}
+
+\section{Bayes' Formula}
+
+\begin{remark}[Bayes' Formula]
+	Let $S$ be a sample space and let $E$, $F$ be events, then notice that $E=EF \cup EF^C$; that is, some point in $E$ must either be in $F$ or not in $F$ which themselves are mutually exclusive. We can then compute identities 
+	\begin{alignat}{4}
+		E&=P(EF)+P\left(EF^C\right) \\
+			&=P(E\mid F)P(F)+P\left(E\mid F^C\right)P\left(F^C\right) \\
+			&=P(E\mid F)P(F)+P\left(E\mid F^C\right)\left(1-P(F)\right)
+	\end{alignat}
+	If we let $\left\{F_j\right\}$ be a partition of $S$ then 
+	\begin{alignat}{4}
+		P(E)&=\sum_{i=1}^nP(EF_i) \\
+			&=\sum_{i=1}^nP(E\mid F_i)P(F_i)
+	\end{alignat} 
+	
+	Suppose now we assume that $E$ has occurred and we wish to know the probability of each $F_i$ occurring we have 
+	\begin{alignat}{4}
+		P(F_i\mid E)&=\frac{P(EF_i)}{P(E)} \\
+			&=\frac{P(E\mid F_i)P(F_i)}{\sum_{k=1}^nP(E\mid F_k)P(F_k)}
+	\end{alignat}
+	which is known as Bayes' Formula. 
+\end{remark}
+
+\section{Problems}
+
+\begin{problem}[\S 1 \# 5]
+	An individual uses the following gambling system at Las Vegas. He bets \$1 that the roulette wheel will come up red. If he wins, he quits. If he loses then he makes the same bet a second time only this time he bets \$2; and then regardless of the outcome he quits. Assuming that he has a probability of $\frac{1}{2}$ of winning each bet, what is the probability that he goes home a winner. Why is this system not used by everyone? 
+	\begin{proof}[Solution]
+		Suppose he wins the first bet, he quits a winner winning \$1. Suppose he does not win the first bet, then his second bet gives him $\frac{1}{2}$ odds of winning \$2 on the bet covering the \$1 loss plus \$1 winnings. He has the same odds for losing; therefore he wins $\frac{3}{4}$ of the time. His expected value is 
+		\begin{alignat*}{4}
+			\frac{1}{2}\cdot 1 + \frac{1}{4}\cdot (-3) + \frac{1}{4}\cdot (1) &= \frac{1}{2} - \frac{2}{4} + \frac{1}{4} \\
+				&=\frac{1}{2} - \frac{3}{4} + \frac{1}{4} \\
+				&=0
+		\end{alignat*}
+		The reason this isn't used is that the odds of red (or black) are actually less than $\frac{1}{2}$. In the US the odds of red (or black) are $\frac{18}{40}$; so now we compute the expected value
+		\begin{alignat*}{4}
+			\frac{18}{40}\cdot 1 + \frac{22}{40}\cdot\frac{22}{40}\cdot (-3) + \frac{22}{40}\cdot\frac{18}{40} \cdot 1 &=\frac{18}{40}-\frac{968}{1600} + \frac{396}{1600} \\
+				&=\frac{720}{1600} - \frac{1452}{1600} + \frac{396}{1600} \\
+				&=\frac{-336}{1600} \\
+				&=-\frac{21}{100}
+		\end{alignat*}
+	\end{proof}
+\end{problem}
+
+\begin{problem}[\S 1 \# 9]
+	We say that $E \subset F$ if every point in $E$ is also in $F$. Show that $E\subset F$ implies 
+	\begin{alignat}{4}
+		P(F)=P(E) + P\left(FE^C\right) \geq P(E)
+	\end{alignat}
+	\begin{proof}[Solution]
+		We compute each equality separately. 
+		
+		Recall that $F=FE \cup FE^C$ and that since $E$ and $E^C$ are disjoint we can write $P(F)=P(FE) + P\left(FE^C\right)$ but since $E\subset F$ we find that $FE = E$ and so $P(FE)=P(E)$; so $P(F)=P(E)+P\left(FE^C\right)$ is established. 
+		
+		Now, since probabilities are non-negative the inequality on the right holds since $P\left(FE^C\right)$ may be non-negative including $0$ in the case where $E=F$ since in that case $FE^C=\emptyset$. 
+		
+	\end{proof}
+\end{problem}
+
+\begin{problem}[\S 1 \# 17]
+	Suppose each of three persons tosses a coin. If the outcome of one of the tosses differs from the other outcomes, then the game ends. If not, the persons start over and retoss their coins. Assuming fair coins, what is the probability that the game will end with the first route of tosses? If all three coins are biased with probability of $\frac{1}{4}$ of landing heads, what is the probability that the game will end at the first route? 
+	\begin{proof}[Solution]
+		In the first case we consider each of three independent events. Given the first independent event is heads (WLOG) then there is a $\frac{1}{2}$ that the second event is heads and the same for the third so the probability that the game continues after the first toss is $\frac{1}{4}$; therefore the probability that the game ends is $1-\frac{1}{4}=\frac{3}{4}$. 
+		
+		In the second case we have $\frac{1}{4}$ that the first event is heads, followed by the same for the other two events so the probability that the game ends on the first toss with a heads result is $\frac{1}{4^3}=\frac{1}{64}$. Conversely if the first event is tails with probability $\frac{3}{4}$ then we have the same for the second and third events with an ultimate probability of $\frac{27}{64}$ thus the total probability of the game continuing is $\frac{28}{64}=\frac{7}{16}$ and the probability that the game ends is $1-\frac{7}{16}=\frac{9}{16}$. 
+	\end{proof}
+\end{problem}
+
+\begin{problem}[\S 1 \# 19]
+	Two dice are throw. What is the probability that at least one is a six? If the two faces are different, what is the probability that at least one is a six? 
+	\begin{proof}[Solution]
+		In the first case we have $\frac{1}{6}$ that the first face is a six. In the $\frac{5}{6}$ that it is not we also have a $\frac{1}{6}$ chance that the second face is a six, so the probability is $\frac{1}{6}+\frac{5}{36}=\frac{11}{36}$ 
+		
+		In the second case we still have $\frac{1}{6}$ probability that the first face is a six, but now in the $\frac{5}{6}$ we have a $\frac{1}{5}$ chance that the second face is a six since we know it's face is not the non-six that the first face had; thus the probability is
+		\begin{alignat*}{4}
+			\frac{1}{6}+\frac{5}{6}\frac{1}{5}&= \frac{5}{30}+\frac{5}{30} \\
+				&=\frac{10}{30} \\
+				&=\frac{1}{3}
+		\end{alignat*}
+		
+		We can compute the second case by conditional probabilities. Let $E$ be the event that at least one face is a six and $F$ is the event that the faces are different, we want to compute $P(E\mid F)$. We know that $P\left(F^C\right)$, the probability of the event that they are the same is $\frac{1}{6}$ since for each face for the first die there is precisely one six events for the second die to match; therefore $P(F)=\frac{5}{6}$. Now we compute $P(EF)$ which is the probability that one face is a six and that each face is different, this is the 5 ways the first die can be a six and the other die different and likewise the 5 ways the second can be 6 when the first is different, so $P(EF)=\frac{10}{36}$.
+		\begin{alignat*}{4}
+			P(E\mid F)&=\frac{P(EF)}{P(F)} \\
+				&=\frac{\frac{10}{36}}{\frac{5}{6}} \\
+				&=\frac{10}{36}\frac{6}{5} \\
+				&=\frac{1}{3}
+		\end{alignat*} 
+	\end{proof}
+\end{problem}
+
+\begin{problem}[\S 1 \# 25]
+	Two cards are randomly selected from a desk of 52 playing cards. 
+	\begin{enumerate}
+		\item What is the probability that they constitute a pair? 
+		\item What is the probability that they constitute a pair given that they are from different suits? 
+	\end{enumerate}
+	\begin{proof}[Solution]
+		Given that we select some card in the first event there are precisely 3 cards of the remaining 51 cards which will make a pair, so the probability is $\frac{3}{51}$
+		
+		Given that we select some card in the first event we want to compute $P(E\mid F)$ where $E$ is the event that we select a pair card and $F$ is the event that we select a card of a different suit; we wish to compute $\frac{P(EF)}{P(F)}$. The event $EF$ is the event that we select a pair card and it's of a different suit, but $E$ implies $F$ so $P(EF)=\frac{3}{51}$. The even $F$ is the event that we select a card of a different suit. There are $39$ cards of a different suit so $P(F)=\frac{39}{51}$ and we compute
+		\begin{alignat*}{4}
+			P(E\mid F)&=\frac{P(EF)}{P(F)} \\
+				&=\frac{\frac{3}{51}}{\frac{39}{51}} \\
+				&=\frac{3}{39} \\
+				&=\frac{1}{13}
+		\end{alignat*}
+	\end{proof}
+\end{problem}
+
+\begin{problem}[\S 1 \#23]\label{P1.23}
+	For events $E_1, E_2, \dots$ show that 
+	\begin{alignat}{4}
+		P(E_1E_2\dots E_n)=P(E_1)P(E_2\mid E_1)P(E_3\mid E_1E_2)\dots P(E_n\mid E_1\dots E_{n-1})
+	\end{alignat}
+	\begin{proof}
+		We prove by induction on $n$. Let $n=2$, then the result follows from the general formula for conditional probabilities; that is
+		\begin{alignat*}{4}
+			P(E_1E_2)&=P(E_1)P(E_2\mid E_1)
+		\end{alignat*}
+		Note that $P(E_1E_2)=P(E_2E_1)$ since the intersection operation is commutative. Now, let $n$ be given and let 
+		\begin{alignat*}{4}
+			P(E_1E_2\dots E_{n-1})=P(E_1)P(E_2\mid E_1)P(E_3\mid E_1E_2)\dots P(E_{n-1}\mid E_1\dots E_{n-2})
+		\end{alignat*} 
+		be given by inductive hypothesis. We may write $F_1=E_1E_2\dots E_{n-1}$ and $P(F_1)=P(E_1)P(E_2\mid E_1)P(E_3\mid E_1E_2)\dots P(E_{n-1}\mid E_1\dots E_{n-2})$ and let $F_2=E_n$ such that 
+		\begin{alignat*}{4}
+			P(E_1\dots E_n)&=P(F_1F_2) \\
+				&=P(F_1)P(F_2\mid F_1) \\
+				&=P(E_1)P(E_2\mid E_1)P(E_3\mid E_1E_2)\dots P(E_{n-1}\mid E_1\dots E_{n-2})P(F_2\mid F_1) \\
+				&=P(E_1)P(E_2\mid E_1)P(E_3\mid E_1E_2)\dots P(E_{n-1}\mid E_1\dots E_{n-2})P(F_2\mid E_1E_2\dots E_{n-1}) \\
+				&=P(E_1)P(E_2\mid E_1)P(E_3\mid E_1E_2)\dots P(E_n\mid E_1E_2\dots E_{n-1}) \\	
+		\end{alignat*}
+		as required. 
+	\end{proof}
+\end{problem}
+
+\begin{problem}[\S 1 \# 27]
+	A deck of 52 playing cards, containing all four aces, is randomly divided into 4 piles of 13 cards each. Define events $E_1$, $E_2$, $E_3$, $E_4$ as follows
+	\begin{enumerate}
+		\item $E_1$ = One of the piles contains the ace of spades.
+		\item $E_2$ = The ace of spades and the ace of hearts are in different piles.
+		\item $E_3$ = The ace of spades, the ace of hearts and the ace of diamonds are in different piles. 
+		\item $E_4$ = All four aces are in different piles.
+	\end{enumerate}
+	Use Problem \ref{P1.23} to compute the probability that each pile has an ace. 
+	\begin{proof}[Solution]
+	
+	\end{proof}
+\end{problem}
+
 \end{document}  
