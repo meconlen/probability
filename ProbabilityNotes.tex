@@ -7,6 +7,9 @@
 								% TeX will automatically convert eps --> pdf in pdflatex		
 \usepackage{amsmath, amsthm, amssymb, amsfonts}
 \usepackage{mathabx}
+\usepackage{makeidx}
+\usepackage[symbol,perpage]{footmisc}
+
 
 \newtheorem{definition}{Definition}
 \newtheorem{example}{Example}
@@ -14,6 +17,8 @@
 \newtheorem{lemma}{Lemma}
 \newtheorem{theorem}{Theorem}
 \newtheorem{problem}{Problem}
+
+\makeindex
 
 \title{Probability Notes}
 \author{Michael Conlen}
@@ -25,7 +30,7 @@
 
 \chapter{Introduction}
 \section{Sample Spaces and Events}
-\begin{definition}[Sample Space]
+\begin{definition}[Sample Space]\index{sample space}
 	The set of all possible outcomes of an experiment. 
 \end{definition}
 
@@ -42,7 +47,7 @@
 	\end{alignat}
 \end{example}
 
-\begin{definition}[Event]
+\begin{definition}[Event]\index{event}
 	Any subset $E$ of a sample space $S$.
 \end{definition}
 
@@ -60,7 +65,7 @@
 	\end{alignat}
 \end{remark}
 
-\begin{definition}[Null Event]
+\begin{definition}[Null Event]\index{event!null}\index{null event}
 	For any sample space $S$ the null event is an event with no outcomes and is denoted $\emptyset$.
 \end{definition}
 
@@ -72,7 +77,7 @@
 	We define the union and intersection of multiple events, $\cup_{n=1}^\infty E_n$ and $\cap_{n=1}^\infty E_n$ as expected. 
 \end{remark}
 
-\begin{definition}[Complement]
+\begin{definition}[Complement]\index{complement}
 	Let $E$ be an event in a sample space $S$, then the complement of $E$, denoted $E^C$ is 
 	\begin{alignat}{4}
 		E^C&=\{x\in S\mid x\not\in E\}
@@ -81,7 +86,7 @@
 
 \section{Probabilities Defined on Events}
 
-\begin{definition}[Probability]
+\begin{definition}[Probability]\index{probability}
 	Let $S$ be a sample space; let $P$ be a function on $\mathcal{P}(S)$ such that for all $E\in\mathcal{P}(S)$ the function $P$ satisfies
 	\begin{enumerate}
 		\item $0\leq P(E)\leq 1$
@@ -137,7 +142,7 @@
 	\end{proof}
 \end{lemma}
 
-\begin{theorem}[Inclusion Exclusion]
+\begin{theorem}[Inclusion Exclusion]\index{inclusion exclusion}
 	Let $S$ be a sample space and let $E$, $F$, $G$ be events, then 
 	\begin{alignat}{4}
 		P(E\cup F\cup G)=P(E)+P(F)+P(G)-P(EF)-P(EG)+P(EFG)
@@ -162,7 +167,7 @@
 \end{remark}
 
 \section{Conditional Probabilities}
-\begin{definition}[Conditional Probability]
+\begin{definition}[Conditional Probability]\index{probablity!conditional}\index{conditional probability}
 	Let $S$ be a sample space and let $E$ and $F$ be events. We wish to denote the probability that event $E$ occurred given that $F$ occurred; we write $P(E\mid F)$.
 \end{definition}
 
@@ -175,11 +180,11 @@
 
 \section{Independent Events}
 
-\begin{definition}[Independent Events]
+\begin{definition}[Independent Events]\index{independent events}\index{event!independent}
 	Two events $E$ and $F$ of a sample space $S$ are said to be independent if $P(EF)=P(E)P(F)$
 \end{definition}
 
-\begin{definition}[Independent Trials]
+\begin{definition}[Independent Trials]\index{independent trials}
 	Suppose that a sequence of experiments which result in success or failure is to be performed. Let $E_i$ denote the event that the $i^{th}$ experiment is a success. If for all $i_k$
 	\begin{alignat}{4}
 		P(E_{i_1}E_{i_2}\dots E_{i_n})=\prod_{j=1}^nP(E_{i_j}) 
@@ -189,7 +194,7 @@
 
 \section{Bayes' Formula}
 
-\begin{remark}[Bayes' Formula]
+\begin{remark}[Bayes' Formula]\index{Bayes' formula}
 	Let $S$ be a sample space and let $E$, $F$ be events, then notice that $E=EF \cup EF^C$; that is, some point in $E$ must either be in $F$ or not in $F$ which themselves are mutually exclusive. We can then compute identities 
 	\begin{alignat}{4}
 		E&=P(EF)+P\left(EF^C\right) \\
@@ -435,4 +440,216 @@
 	
 \end{problem}
 
+\begin{problem}[\S 1 \#45]
+	An urn contains $b$ black balls and $r$ red balls. One of the balls is drawn at random, but when it is put back in the urn $c$ additional balls of the same color are put in with it. Now suppose that we draw another ball. Show that the probability that the first ball drawn was black given the second ball was red is
+	\begin{alignat}{4}
+		\frac{b}{b+r+c}
+	\end{alignat}
+	\begin{proof}[Solution]
+		Let's denote the event that the first ball is black with $B_1$ and the second ball is red with $R_2$. We wish to compute 
+		\begin{alignat}{4}
+			P(B_1\mid R_2)&=\frac{P(B_1R_2)}{P(R_2)}
+		\end{alignat}
+		
+		We compute $P(R_2)$ noting that $P(B_1)=\frac{b}{b+r}$ and $P(R_1)=\frac{r}{b+r}$
+		\begin{alignat}{4}
+			P(R_2)&=P(B_1)P(R_2\mid B_1)+P(R_1)P(R_2\mid R_1) \\
+				&=\left(\frac{b}{b+r}\right)\left(\frac{r}{b+r+c}\right)+\left(\frac{r}{b+r}\right)\left(\frac{r+c}{b+r+c}\right) \\
+				&=\left(\frac{(r)(b+r+c)}{(b+r)(b+r+c)}\right) \\
+				&=\frac{r}{b+r}
+		\end{alignat}
+		
+		Now to compute $P(B_1R_2)$ we find that $P(B_1)=\frac{b}{b+r}$ and of those $R_2$ happens $\frac{r}{b+r+c}$ so 
+		\begin{alignat}{4}
+			P(B_1R_2)&=\left(\frac{b}{b+r}\right)\left(\frac{r}{b+r+c}\right) \\
+				&=\frac{br}{(b+r)(b+r+c)}
+		\end{alignat}
+		
+		so we compute
+		\begin{alignat}{4}
+			P(B_1\mid R_2)&=\frac{(B_1R_2)}{P(R_2)} \\
+				&=\frac{\frac{br}{(b+r)(b+r+c)}}{\frac{r}{b+r}} \\
+				&=\frac{b}{b+r+c}
+		\end{alignat}
+		as required
+	\end{proof}
+\end{problem}
+
+\begin{problem}[\S 1 \# 48]
+	Sixty percent of families in a certain community own their own car, thirty percent own their own home and twenty percent own both their own car and their own home. If a family is randomly chosen, what is the probability that this family owns a car or a house but not both. 
+	\begin{proof}[Solution]
+		We denote home ownership with the event $H$ and car ownership with the event $C$ and $HC$ for the event that they own both and $H\cup C$ the event that they own either. Note that $P(H\cup C)=P(H)+P(C)-P(HC)$ and we wish to compute $P(H\cup C)-P(HC)$. 
+		\begin{alignat}{4}
+			P(H\cup C)-P(HC)&=P(H)+P(C)-P(HC)-P(HC) \\
+				&=0.3+0.6-0.2-0.2 \\
+				&=0.5
+		\end{alignat}
+	\end{proof}
+\end{problem}
+
+\chapter{Random Variables}
+
+\section{Random Variables}
+
+\begin{definition}[Random Variable]\index{random variable}
+	A \emph{random variable} is a real valued function defined on a sample space; that is a random variable $X$ defined on a sample space $S$ is a map
+	\begin{alignat}{4}
+		X:S\to \mathbb{R}
+	\end{alignat}	
+\end{definition}
+
+\begin{example}
+	If our experiment is to roll two die we may define a random variable to be the sum of the die rolls so that $X( (1, 1) ) = 2$ and $X( (3, 4) )=7$. 
+\end{example}
+
+\begin{remark}
+	A random variable can be the outcome of an experiment; for example when we roll two die if the random variable $X$ is the sum of the dice then $P\{X=2\}=\frac{1}{36}$ as there's only one way for this to occur, with roll $(1, 1)$. Likewise $P\{X=7\}=\frac{1}{6}$ since of the 36 possible outcomes of the die rolls $6$ of them result in a sum of $7$. 
+\end{remark}
+
+\begin{definition}[Indicator Random Variable]\index{random variable!indicator}\index{indicator random variable}
+	A random variable which denotes $1$ or $0$ depending on whether or not some event $E$ occurs 
+\end{definition}
+
+\begin{definition}[Cumulative Distribution Function]\index{cumulative distribution function!discrete}
+	We define a function 
+	\begin{alignat}{4}
+		F(x)=P\left\{X\leq x\right\}
+	\end{alignat}
+	that is, $F(x)$ is the probability that $X\leq x$. We call this the cumulative distribution function and often write CDF.  
+\end{definition}
+
+
+
+\section{Discrete Random Variables}
+
+\begin{definition}[Discrete Random Variable]\index{random variable!discrete}\index{discrete random variable}
+	A random variable which can take on at most a countable number of possible values
+\end{definition}
+
+\begin{definition}[Probability Mass Function]\index{probability mass function}
+	Let $X$ be a discrete random variable then the function 
+	\begin{alignat}{4}
+		p(a) = P\left\{X=a\right\}
+	\end{alignat}
+	is called the probability mass function. We often write PMF. 
+\end{definition}
+
+\begin{remark}
+	A probability mass function $p$ may take on positive values for at most a countable number of values in the domain $\mathbb{R}$\footnote{recall that the domain of the PMF is the range of the random variable whose range is $\mathbb{R}$.}, so we may index these $x_i$ and since the random variable $X$ must take on these values we find
+	\begin{alignat}{4}
+		\sum_{i=1}^\infty p(x_i)=1
+	\end{alignat}
+\end{remark}
+
+\begin{remark}
+	Discrete random variables are often classified by their probability mass function. 
+\end{remark}
+
+\begin{definition}[Cumulative Distribution Function of Discrete Random Variables]\index{cumulative distribution function!discrete}
+	Let $X$ be a discrete random variable taking on values $\left\{x_i\right\}_{i\in\mathbb{N}}$; then the cumulative distribution function is given by 
+	\begin{alignat}{4}
+		F(a)=\sum_{x_i\leq a}p(x_i)
+	\end{alignat} 
+\end{definition}
+
+
+
+\subsection{Bernoulli Random Variable}
+
+\begin{definition}[Bernoulli Random Variable]\index{Bernoulli random variable}\index{random variable!Bernoulli}
+	The Bernoulli random variable is an indicator random variable characterized by 
+	\begin{alignat}{4}
+		p(0) = P\left\{X=0\right\} = 1-p \label{Eqn:2.1} \\
+		p(1) = P\left\{X=1\right\} = p \label{Eqn:2.2}
+	\end{alignat}
+	where $0\leq p\leq 1$. We say that $p$ is the probability of success 
+\end{definition}
+
+\begin{remark}
+	Suppose we conduct an experiment with probability of success $p$ and probability of failure $1-p$ then the random variable $X$ given by equations \ref{Eqn:2.1} and \ref{Eqn:2.2} is a Bernoulli random variable. 
+\end{remark}
+
+\begin{definition}[Binomial Random Variable]\index{binomial random variable}\index{random variable!binomial}
+	Suppose we conduct $n$ identical independent Bernoulli trails with probability of success $p$, if we let $X$ be the random variable that indicates the number of successes that occur in the $n$ trials then $X$ is said to be a binomial random variable with parameters $(n, p)$ and is characterized by the probability mass function
+	\begin{alignat}{4}
+		p(i)=\binom{n}{i}p^i(1-p)^{n-i}
+	\end{alignat}
+	for $i\in \left\{0, \dots, n\right\}$. 
+\end{definition}
+
+\subsection{The Geometric Random Variable}
+
+\begin{remark}
+	Suppose that independent trials, each having probability $p$ of being a success are performed until a success occurs. If we let $X$ be the number of trails required until the first success then $X$ is said to be a geometric random variable with parameter $p$. 
+\end{remark}
+
+\begin{definition}[Geometric Random Variable]\index{random variable!geometric}\index{geometric random variable}
+	A random variable $X$ with the probability mass function
+	\begin{alignat}{4}
+		p(n)=P\left\{X=n\right\} = (1-p)^{n-1}p
+	\end{alignat}
+	for $n\in\mathbb{N}$ is a geometric random variable. 
+\end{definition}
+
+\begin{remark}
+	We can see that the definition follows the description since for $X=n$ we require $n-1$ failures with probability $1-p$ and a single success with probability $p$. 
+\end{remark}
+
+\subsection{The Poisson Random Variable}
+
+\begin{definition}[Poisson Random Variable]\index{random variable!poisson}\index{poison random variable}
+	A random variable $X$ taking on values in $\mathbb{N}$ with the probability mass function 
+	\begin{alignat}{4}
+		p(i)=p\left\{X=i\right\} = e^{-\lambda}\frac{\lambda^i}{i!}
+	\end{alignat}
+	is said to be a Poisson random variable with parameter $\lambda$
+\end{definition}
+
+\begin{remark}
+	The Poisson random variable is the limit of binomial random variable with parameters $(n, p)$ when $n\to\infty$ and $n\cdot p=\lambda$ is held fixed; thus for large $n$ and small $p$ the poisson random variable is a decent approximation to a binomial random variable. 
+\end{remark}
+
+\section{Continuous Random Variables}
+
+\begin{definition}[Continuous Random Variable]\index{random variable!continuous}\index{continuous random variable}
+	Let $X$ be a random variable such that $X$ maps the sample space to an uncountable set in $\mathbb{R}$ such that there exists a function
+	\begin{alignat}{4}
+		f:\mathbb{R}\to\mathbb{R}^+
+	\end{alignat}
+	such that for some set $B$ 
+	\begin{alignat}{4}
+		P\left\{X\in B\right\} = \int_{B}f(x)dx
+	\end{alignat}
+\end{definition}
+
+\begin{remark}
+	Recall that there is an experiment with sample space $S$ and a random variable $X:S\to\mathbb{R}$, $B$ is a subset of the range of $X$. 
+\end{remark}
+
+\begin{definition}[Probability Density Function]\index{probability density function}
+	If $X$ is a continuous random variable such that 
+	\begin{alignat}{4}
+		P\left\{X\in B\right\}=\int_Bf(x)dx
+	\end{alignat}
+	then $f$ is the probability density function. 
+\end{definition}
+
+\begin{remark}
+	We can completely characterize continuous random variables in terms of the probability density function.
+\end{remark}
+
+\begin{definition}[Cumulative Distribution Function of a Continuous Random Variable]\index{cumulative distribution function!continuous}
+	The relationship between the cumulative distribution function $F(\cdot)$ and the probability density function $f(\cdot)$ is given by 
+	\begin{alignat}{4}
+		F(a)=P\left\{X\in (-\infty, a]\right\} = \ int_{-\infty}^af(x)dx
+	\end{alignat}
+	and by the FTC we have
+	\begin{alignat}{4}
+		\frac{d}{da}F(a)=f(a)
+	\end{alignat}
+\end{definition}
+
+\clearpage
+\addcontentsline{toc}{chapter}{Index}
+\printindex
 \end{document}  
