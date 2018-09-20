@@ -9,14 +9,20 @@
 \usepackage{mathabx}
 \usepackage{makeidx}
 \usepackage[symbol,perpage]{footmisc}
+\usepackage[pdftex,bookmarks=true,pdfborder={0 0 0},colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage{setspace}
 
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{example}{Example}[chapter]
+\newtheorem{remark}{Remark}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{corollary}{Corollary}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{problem}{Problem}[chapter]
 
-\newtheorem{definition}{Definition}
-\newtheorem{example}{Example}
-\newtheorem{remark}{Remark}
-\newtheorem{lemma}{Lemma}
-\newtheorem{theorem}{Theorem}
-\newtheorem{problem}{Problem}
+\newcommand{\paren}[1]{\left(#1\right)}
+
 
 \makeindex
 
@@ -25,9 +31,13 @@
 %\date{}							% Activate to display a given date or no date
 
 \begin{document}
+\begin{spacing}{1.618}
+\frontmatter
 \maketitle
 \tableofcontents
+\setcounter{tocdepth}{4}
 
+\mainmatter
 \chapter{Introduction}
 \section{Sample Spaces and Events}
 \begin{definition}[Sample Space]\index{sample space}
@@ -649,7 +659,224 @@
 	\end{alignat}
 \end{definition}
 
+\subsection{The Uniform Random Variable}
+
+\begin{definition}[Uniform Random Variable]\index{random variable!uniform}\index{random variable}
+	A random variable is said to be uniformly distributed over the interval $(\alpha, \beta)$ if the probability density function is given by 
+	\begin{alignat}{4}
+		f(x)=\left\{\begin{array}{lll}
+			\frac{1}{\beta - \alpha},&\hspace{1 cm}&\alpha < x < \beta \\
+			0,&\hspace{1 cm}&\textrm{otherwise}
+		\end{array}\right.
+	\end{alignat}
+\end{definition}
+
+\begin{remark}
+	The CDF of a uniform random variable is given by 
+	\begin{alignat}{4}
+		F(a)&=\left\{\begin{array}{lll}
+			0,&\hspace{1 cm}&a\leq \alpha \\
+			\frac{a - \alpha}{\beta - \alpha},&\hspace{1 cm}& \alpha<a<\beta \\
+			1,&\hspace{1 cm}& a \geq \beta 
+		\end{array}\right.
+	\end{alignat}
+\end{remark}
+
+\subsection{Exponential Random Variables}
+
+\begin{definition}\index{random variable!exponential}\index{exponential random variable}
+	A continuous random variable whose probability density function is given, for some $\lambda > 0$, by 
+	\begin{alignat}{4}
+		f(x)&=\left\{\begin{array}{lll}
+			\lambda e^{-\lambda x},&\hspace{1 cm}&x\geq 0 \\
+			0,&\hspace{1 cm}&x< 0
+		\end{array}\right.
+	\end{alignat}
+\end{definition}
+
+\begin{remark}
+	The cumulative distribution function of an exponential random variable with parameter $\lambda$ is 
+	\begin{alignat}{4}
+		F(a)&=\int_0^a\lambda e^{-\lambda x} dx
+	\end{alignat}
+\end{remark}
+
+\subsection{Gamma Random Variable}
+
+\begin{definition}[Gamma Function]\index{gamma function}
+	The Gamma function is given by 
+	\begin{alignat}{4}
+		\Gamma(\alpha)&=\int_0^\infty e^{-x}x^{\alpha - 1} dx
+	\end{alignat}
+\end{definition}
+
+\begin{definition}[Gamma Random Variable]\index{gamma random variable}\index{random variable!gamma}
+	A continuous random variable with probability density function, for some $\lambda > 0$ and $\alpha > 0$ 
+	
+	\begin{alignat}{4}
+		f(x)&=\left\{\begin{array}{lll}
+			\frac{\lambda e^{-\lambda x} (\lambda x)^{\alpha-1}}{\Gamma(\alpha)},&\hspace{1 cm}& x\geq 0 \\
+			0,&\hspace{1 cm}& x< 0
+		\end{array}\right.
+	\end{alignat}
+	is a \emph{gamma random variable} with parameters $\alpha$ and $\lambda$
+\end{definition}
+
+\subsection{Normal Random Variables}
+
+\begin{definition}[Normal Random Variable]\index{random variable!normal}\index{normal random variable}
+	Let $X$ be a continuous random variable with parameters $\mu$ and $\sigma^2$, then we say that $X$ is a normal random variable if it has the probability density function
+	\begin{alignat}{4}
+		f(x)&=\frac{1}{\sqrt{2\pi}\sigma}exp\left\{\frac{-(x-\mu)^2}{2\sigma^2}\right\}
+	\end{alignat}
+	for $x\in\mathbb{R}$. 
+\end{definition}
+
+\begin{remark}
+	Let $X$ be a normal random variable with parameters $\mu$ and $\sigma^2$; then $Y=\alpha X+\beta$ is a normal random variable with parameters $\alpha\mu+\beta$ and $\alpha^2\sigma^2$. 
+\end{remark}
+
+\begin{definition}[Standard Distribution]\index{standard distribution}
+	Let $X$ be a normal random variable with parameters $\mu$ and $\sigma^2$ and let $Y=\frac{X-\mu}{\sigma}$ then $Y$ is a normal random variable with parameters $(0, 1)$ and we call this the standard normal distribution. 
+\end{definition}
+
+\section{Expectation of a Random Variable}
+
+\subsection{Discrete Random Variables}
+
+\begin{definition}[Expectation of a Discrete Random Variable]\index{expectation!discrete random variable}\index{discrete random variable!expectation}
+	Let $X$ be a discrete random variable with probability mass function $p(x)$, then the \emph{expected value} of $X$ is defined by
+	\begin{alignat}{4}
+		E[X]=\sum_{x:p(x)>0} xp(x)
+	\end{alignat}
+\end{definition}
+
+\begin{proposition}[Expectation of a Bernoulli Random Variable]\index{expectation!Bernoulli}\index{Bernoulli random variable!expectation}
+	Let $X$ be a Bernoulli random variable with parameter $p$, then the expectation of $X$ is given by
+	\begin{alignat}{4}
+		E[X]=p
+	\end{alignat}
+\end{proposition}
+
+\begin{proposition}[Expectation of a Binomial Random Variable]\index{expectation!binomial}\index{binomial random variable!expectation}
+	Let $X$ be a binomial random variable with parameters $(n, p)$ then the expectation of $X$ is given by 
+	\begin{alignat}{4}
+		E[X]=np
+	\end{alignat}
+\end{proposition}
+
+\begin{proposition}[Expectation of a Geometric Random Variable]\index{expectation!geometric}\index{geometric random variable!expectation}
+	Let $X$ be a geometric random variable with parameter $p$, then the expectation of $X$ is given by 
+	\begin{alignat}{4}
+		E[X]=\frac{1}{p}
+	\end{alignat}
+\end{proposition}
+
+\subsection{Continuous Random Variables}
+\begin{definition}[Expectation of a Continuous Random Variable]\index{expectation!continuous random variable}\index{continuous random variable!expectation}
+	Let $X$ be a continuous random variable with probability density function $f(x)$, then the \emph{expected value} of $X$ is defined by
+	\begin{alignat}{4}
+		E[X]&=\int_{-\infty}^\infty xf(x)dx
+	\end{alignat}
+\end{definition}
+
+\begin{proposition}[Expectation of a Uniform Random Variable]\index{uniform random variable!expectation}\index{expectation!uniform}
+	Let $X$ be a continuous uniform random variable distributed over $(\alpha, \beta)$, then the expectation of $X$ is given by 
+	\begin{alignat}{4}
+		E[X]&=\frac{\beta+\alpha}{2}
+	\end{alignat}
+\end{proposition}
+
+\begin{proposition}[Expectation of an Exponential Random Variable]\index{exponential random variable!expectation}\index{expectation!exponential}
+	Let $X$ be an exponential random variable with parameter $\lambda$, then the expectation of $X$ is given by 
+	\begin{alignat}{4}
+		E[X]=\frac{1}{\lambda}
+	\end{alignat}
+\end{proposition}
+
+\begin{proposition}[Expectation of a Normal Random Variable]\index{normal random variable!expectation}\index{expectation!normal}
+	Let $X$ be a normal random variable with parameters $(\mu, \sigma^2)$, then the expectation of $X$ is given by 
+	\begin{alignat}{4}
+		E[X]=\mu
+	\end{alignat}
+\end{proposition}
+
+\subsection{Expectation of a function of a Random Variable}
+
+\begin{remark}
+	Recall that a random variable $X$ is a function 
+	\begin{alignat}{4}
+		X:S\to \mathbb{R}
+	\end{alignat}
+\end{remark}
+
+\begin{proposition}
+	Let $X$ be a discrete random variable and $g:X\to \mathbb{R}$ then 
+	\begin{alignat}{4}
+		E[g(X)]=\sum_{x\mid p(x)>0}g(x)p(x)
+	\end{alignat}
+\end{proposition}
+
+\begin{proposition}
+	Let $X$ be a continuous random variable and $g:X\to\mathbb{R}$ then 
+	\begin{alignat}{4}
+		E[g(X)]=\int_{\mathbb{R}}g(x)f(x)dx
+	\end{alignat}
+\end{proposition}
+
+\begin{corollary}
+	Expectations are linear; that is for constants $a$ and $b$
+	\begin{alignat}{4}
+		E[aX+b]&=aE[X]+b
+	\end{alignat}
+\end{corollary}
+
+\section{Jointly Distributed Random Variables}
+
+\subsection{Joint Distribution Functions}
+
+\begin{remark}
+	When we think about joint distribution functions we construct the cumulative distribution function and derive from there
+\end{remark}
+
+\begin{definition}[Joint Cumulative Distribution Function]\index{cumulative distribution function!joint}\index{joint cumulative distribution function}
+	Let $X$ and $Y$ be random variables, then the \emph{joint cumulative probability distribution function} of $X$ and $Y$ is given by
+	\begin{alignat}{4}
+		F(a, b)&=P\paren{X\leq a, Y\leq b}
+	\end{alignat}
+	for $a,~b\in\mathbb{R}$. 
+\end{definition}
+
+\begin{remark}
+	Given a joint cumulative distribution function $F:X\times Y\to [0,1]^2$ we may derive the cumulative distribution for $X$ (likewise $Y$) by 
+	\begin{alignat}{4}
+		F_X(a)&=P\paren{X\leq a} \\
+			&=P\paren{X\leq a, Y<\infty} \\
+			&=\lim_{y\to\infty}F(a, y)
+	\end{alignat}
+\end{remark}
+
+\begin{definition}[Joint Probability Mass Function]\index{probability mass function!joint}\index{joint probability mass function}
+	Given discrete random variables $X$ and $Y$ we may define the \emph{joint probability mass function} of $X$ and $Y$ by 
+	\begin{alignat}{4}
+		p(x, y)&=P\paren{X=x, Y=y}
+	\end{alignat}
+\end{definition}
+
+\begin{remark}
+	Let $p(x, y)$ be a joint probability mass function over discrete random variables $X$ and $Y$ then we may derive the probability mass function for $X$ (and likewise $Y$) by 
+	\begin{alignat}{4}
+		p_X(x)=\sum_{y:p(x, y)>0} p(x, y)
+	\end{alignat}
+	that is, we fix $x$ and sum all the probabilities over all $y$. 
+\end{remark}
+
+
+
+\end{spacing}
+
 \clearpage
 \addcontentsline{toc}{chapter}{Index}
 \printindex
+
 \end{document}  
