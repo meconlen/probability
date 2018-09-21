@@ -347,7 +347,7 @@
 	\end{enumerate}
 	Use Problem \ref{P1.23} to compute the probability that each pile has an ace. 
 	\begin{proof}[Solution]
-	
+		incomplete
 	\end{proof}
 \end{problem}
 
@@ -651,7 +651,7 @@
 \begin{definition}[Cumulative Distribution Function of a Continuous Random Variable]\index{cumulative distribution function!continuous}
 	The relationship between the cumulative distribution function $F(\cdot)$ and the probability density function $f(\cdot)$ is given by 
 	\begin{alignat}{4}
-		F(a)=P\left\{X\in (-\infty, a]\right\} = \ int_{-\infty}^af(x)dx
+		F(a)=P\left\{X\in (-\infty, a]\right\} = \int_{-\infty}^af(x)dx
 	\end{alignat}
 	and by the FTC we have
 	\begin{alignat}{4}
@@ -863,17 +863,61 @@
 	\end{alignat}
 \end{definition}
 
-\begin{remark}
+\begin{proposition}
 	Let $p(x, y)$ be a joint probability mass function over discrete random variables $X$ and $Y$ then we may derive the probability mass function for $X$ (and likewise $Y$) by 
 	\begin{alignat}{4}
 		p_X(x)=\sum_{y:p(x, y)>0} p(x, y)
 	\end{alignat}
 	that is, we fix $x$ and sum all the probabilities over all $y$. 
-\end{remark}
+\end{proposition}
 
-
-
+\begin{definition}[Joint Probability Density Function]\index{probability density function!joint}\index{joint probability density function}
+	Let $X$ and $Y$ be continuous random variables, we say that they are \emph{jointly continuous} if there exists a function $f(x, y)$,
+	\begin{alignat}{4}
+		f:\mathbb{R}^2\to [0,1]
+	\end{alignat}
+	such that for all $A,~B\subset \mathbb{R}$ the following holds \footnote{Recall that $X:S\to \mathbb{R}$. This tells us the probability that $(X, Y)\in (A, B)$.}
+	\begin{alignat}{4}
+		f\paren{X\in A, Y\in B}=\int_B\int_Af(x, y)dx dy
+	\end{alignat}
+\end{definition}
 \end{spacing}
+
+\begin{proposition}
+	Let $X$ and $Y$ be continuous random variables and $f(x, y)$ be a joint probability density function; then we may derive the probability density function for $X$ (likewise $Y$) by 
+	\begin{alignat*}{4}
+		P\paren{X\in A}&=P\paren{X\in Y, Y\in \mathbb{R}} \\
+			&=\int_\mathbb{R}\int_Af(x, y)dx dy \\
+			&=\int_A f_X(x)dx 
+	\end{alignat*}
+	where
+	\begin{alignat}{4}
+		f_X(x)&=\int_\mathbb{R}f(x, y)dy
+	\end{alignat}
+\end{proposition}
+
+\begin{proposition}
+	Let $p(x, y)$ be a joint probability mass function of two discrete random variables $X$ and $Y$ respectively; then we may compute the expectation of a function of $(X, Y)$ by 
+	\begin{alignat}{4}
+		E[g(X, Y)]&=\sum_y\sum_xg(x, y)p(x, y)
+	\end{alignat}
+\end{proposition}
+
+\begin{proposition}
+	Let $f(x, y)$ be a joint probability density function of two continuous random variables $X$ and $Y$ respectively; then we may compute the expectation of a function of $(X, Y)$ by 
+	\begin{alignat}{4}
+		E[g(X, Y)]&=\int_\mathbb{R}\int_\mathbb{R}g(x, y)f(x, y)dx dy
+	\end{alignat}
+\end{proposition}
+
+\begin{example}
+	Let $X$ and $Y$ be continuous random variables and let $G(X, Y)=X+Y$ then we may compute $E[X+Y]$
+	\begin{alignat}{4}
+		E[X+Y]&=\int_\mathbb{R}\int_\mathbb{R} (x+y)f(x, y)dxdy \\
+			&=\int_\mathbb{R}\int_\mathbb{R} xf(x, y)dx dy + \int_\mathbb{R}\int_\mathbb{R} yf(x, y)dx dy
+			&=
+	\end{alignat}
+\end{example}
 
 \clearpage
 \addcontentsline{toc}{chapter}{Index}
