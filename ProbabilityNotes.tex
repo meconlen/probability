@@ -22,6 +22,10 @@
 \newtheorem{problem}{Problem}[chapter]
 
 \newcommand{\paren}[1]{\left(#1\right)}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\var}[1]{\mathrm{Var}\left(#1\right)}
+\newcommand{\cov}[1]{\mathrm{Cov}\left(#1\right)}
+
 
 
 \makeindex
@@ -31,13 +35,13 @@
 %\date{}							% Activate to display a given date or no date
 
 \begin{document}
-\begin{spacing}{1.618}
 \frontmatter
 \maketitle
 \tableofcontents
 \setcounter{tocdepth}{4}
 
 \mainmatter
+\begin{spacing}{1.618}
 \chapter{Introduction}
 \section{Sample Spaces and Events}
 \begin{definition}[Sample Space]\index{sample space}
@@ -831,6 +835,17 @@
 	\end{alignat}
 \end{corollary}
 
+\begin{definition}[Moment]\index{moment}
+	The expected value of a random variable $X$, $E[X]$ is referred to as the \emph{mean}\index{mean} or the first \emph{moment} of $X$. The value $E\left[X^n\right]$ is called the $n^{th}$ moment of $X$. 
+\end{definition}
+
+\begin{definition}[Variance]\index{variance}
+	The \emph{variance} of a random variable $X$ is given by 
+	\begin{alignat}{4}
+		\var{X}=E\left[\left(X-E[X]\right)^2\right]
+	\end{alignat}
+\end{definition}
+
 \section{Jointly Distributed Random Variables}
 
 \subsection{Joint Distribution Functions}
@@ -842,7 +857,7 @@
 \begin{definition}[Joint Cumulative Distribution Function]\index{cumulative distribution function!joint}\index{joint cumulative distribution function}
 	Let $X$ and $Y$ be random variables, then the \emph{joint cumulative probability distribution function} of $X$ and $Y$ is given by
 	\begin{alignat}{4}
-		F(a, b)&=P\paren{X\leq a, Y\leq b}
+		F(a, b)&=P\set{X\leq a, Y\leq b}
 	\end{alignat}
 	for $a,~b\in\mathbb{R}$. 
 \end{definition}
@@ -850,8 +865,8 @@
 \begin{remark}
 	Given a joint cumulative distribution function $F:X\times Y\to [0,1]^2$ we may derive the cumulative distribution for $X$ (likewise $Y$) by 
 	\begin{alignat}{4}
-		F_X(a)&=P\paren{X\leq a} \\
-			&=P\paren{X\leq a, Y<\infty} \\
+		F_X(a)&=P\set{X\leq a} \\
+			&=P\set{X\leq a, Y<\infty} \\
 			&=\lim_{y\to\infty}F(a, y)
 	\end{alignat}
 \end{remark}
@@ -859,7 +874,7 @@
 \begin{definition}[Joint Probability Mass Function]\index{probability mass function!joint}\index{joint probability mass function}
 	Given discrete random variables $X$ and $Y$ we may define the \emph{joint probability mass function} of $X$ and $Y$ by 
 	\begin{alignat}{4}
-		p(x, y)&=P\paren{X=x, Y=y}
+		p(x, y)&=P\set{X=x, Y=y}
 	\end{alignat}
 \end{definition}
 
@@ -878,7 +893,7 @@
 	\end{alignat}
 	such that for all $A,~B\subset \mathbb{R}$ the following holds \footnote{Recall that $X:S\to \mathbb{R}$. This tells us the probability that $(X, Y)\in (A, B)$.}
 	\begin{alignat}{4}
-		f\paren{X\in A, Y\in B}=\int_B\int_Af(x, y)dx dy
+		f\set{X\in A, Y\in B}=\int_B\int_Af(x, y)dx dy
 	\end{alignat}
 \end{definition}
 \end{spacing}
@@ -886,7 +901,7 @@
 \begin{proposition}
 	Let $X$ and $Y$ be continuous random variables and $f(x, y)$ be a joint probability density function; then we may derive the probability density function for $X$ (likewise $Y$) by 
 	\begin{alignat*}{4}
-		P\paren{X\in A}&=P\paren{X\in Y, Y\in \mathbb{R}} \\
+		P\set{X\in A}&=P\set{X\in Y, Y\in \mathbb{R}} \\
 			&=\int_\mathbb{R}\int_Af(x, y)dx dy \\
 			&=\int_A f_X(x)dx 
 	\end{alignat*}
@@ -911,13 +926,152 @@
 \end{proposition}
 
 \begin{example}
-	Let $X$ and $Y$ be continuous random variables and let $G(X, Y)=X+Y$ then we may compute $E[X+Y]$
+	Let $X$ and $Y$ be continuous random variables and let $g(X, Y)=X+Y$ then we may compute $E[X+Y]$
 	\begin{alignat}{4}
 		E[X+Y]&=\int_\mathbb{R}\int_\mathbb{R} (x+y)f(x, y)dxdy \\
-			&=\int_\mathbb{R}\int_\mathbb{R} xf(x, y)dx dy + \int_\mathbb{R}\int_\mathbb{R} yf(x, y)dx dy
-			&=
+			&=\int_\mathbb{R}\int_\mathbb{R} xf(x, y)dx dy + \int_\mathbb{R}\int_\mathbb{R} yf(x, y)dx dy \\
 	\end{alignat}
+	We treat the integrals separately 
+	\begin{alignat}{4}
+		\int_\mathbb{R}\int_\mathbb{R} xf(x, y) dx dy &=\int_\mathbb{R}\int_\mathbb{R} x f(x, y) dy dx \label{Eqn:2.3} \\
+			&=\int_\mathbb{R} x \int_\mathbb{R} f(x, y) dy dx \\
+			&=\int_\mathbb{R} x f_X(x) dx \\
+			&= E[X]
+	\end{alignat}
+	Where Equation \ref{Eqn:2.3} is justified by Fubini's theorem\footnote{This is justified because $f(x, y)$ is non-negative therefore $\left|x f(x, y)\right| = |x|f(x, y)$. When we consider $\int_{-\infty}^\infty |x|f(x, y)dx=\int_{-\infty}^0|x|f(x, y)dx + \int_0^\infty|x|f(x, y)dx=\int_0^\infty xf(x, y)dx$}. 
+	
+	For the second integral 
+	\begin{alignat}{4}
+		\int_\mathbb{R}\int_\mathbb{R} yf(x, y) dx dy &=\int_\mathbb{R} y \int_\mathbb{R} f(x, y) dx dy \\
+			&= \int_\mathbb{R} y F_Y(y) dy \\
+			&= E[Y]
+	\end{alignat}
+	Therefore
+	\begin{alignat}{4}
+		E[X+Y] &= E[X] + E[Y]
+	\end{alignat}
+	
 \end{example}
+
+\subsection{Independent Random Variables}
+
+\begin{definition}[Independent Random Variables]\index{random variables!independent}\index{independent random variables}
+	Let $X$ and $Y$ be random variables, we say that $X$ and $Y$ are independent if 
+	\begin{alignat}{4}
+		P\set{X\leq a, Y\leq b}=P\set{X\leq a}P\set{Y\leq b}
+	\end{alignat}
+	or equivalently in terms of the cumulative distribution functions 
+	\begin{alignat}{4}
+		F(a, b)=F_X(a)F_Y(b)
+	\end{alignat}
+	and in terms of the probability mass functions 
+	\begin{alignat}{4}
+		p(x, y)=p_X(x)p_Y(y)
+	\end{alignat}
+	and in terms of the probability distribution functions 
+	\begin{alignat}{4}
+		f(x, y)=f_X(x)f_Y(y)
+	\end{alignat}
+\end{definition}
+
+\begin{proposition}
+	If $X$ and $Y$ are independent random variables then for any functions $h$ and $g$
+	\begin{alignat}{4}
+		E[g(X)h(Y)]=E[g(X)]E[h(Y)]
+	\end{alignat}
+\end{proposition}
+
+\subsection{Covariance and Variance of Sums of Random Variables}
+
+\begin{definition}[Covariance]\index{covariance}
+	Covariance of two random variables $X$ and $Y$ is defined by 
+	\begin{alignat}{4}
+		\cov{X, Y}&=E[(X-E[X])(Y-E[Y])] \\
+			&=E[XY]-E[X]E[Y]
+	\end{alignat}
+\end{definition}
+
+\begin{remark}
+	The covariance of two random variables $X$ and $Y$ will be $0$ if they are independent. It will be positive if $X>0$ makes it more likely that $Y>0$ (likewise $<0$) and negative covariance implies that $X>0$ makes it more likely that $Y<0$ (as well as the inverse). 
+\end{remark}
+
+\begin{proposition}[Properties of Covariance]
+	Let $X$, $Y$, $Z$ be random variables and let $c$ be a constant; then
+	\begin{enumerate}
+		\item $\cov{X, X}=\var{X, X}$
+		\item $\cov{X, Y}=\var{Y, X}$
+		\item $\cov{cX, Y}=c~\cov{X, Y}$
+		\item $\cov{X, Y+Z}=\cov{X, Y}+\cov{X, Z}$
+	\end{enumerate}
+\end{proposition}
+
+\begin{proposition}[Covariance of Sums of Random Variables]\label{Prop:2.1}
+\begin{alignat}{4}
+	\cov{\sum_{i=1}^nX_i, \sum_{j=1}^mY_j}&=\sum_{i=1}^n\sum_{j=1^m}\cov{X_i, Y_j}
+\end{alignat}
+\end{proposition}
+
+\begin{proposition}[Variance of Sums of Random Variables]
+	We can use Proposition \ref{Prop:2.1} to show that 
+	\begin{alignat}{4}
+		\var{\sum_{i=1}^n X_i}&=\sum_{i=1}^n\var{X_i}+2\sum_{i=1}^n\sum_{j<i}\cov{X_i, X_j}
+	\end{alignat}
+	and if $X_i$ are independent random variables this simplifies to 
+	\begin{alignat}{4}
+		\var{\sum_{i=1}^n X_i}&=\sum_{i=1}^n\var{X_i}
+	\end{alignat}
+\end{proposition}
+
+\begin{definition}[Sample Mean]\index{sample mean}\index{mean}
+	Let $\set{X_i}_{i=1}^n$ be a sequence of independent identically distributed \emph{(IID)} random variables; then 
+	\begin{alignat}{4}
+		\widebar{X}=\frac{1}{n}\sum_{i=1}^n X_i
+	\end{alignat}
+	is a random variable called the \emph{sample mean}
+\end{definition}
+
+\begin{remark}
+	Let $\set{X_i}_{i=1}^n$ be a sequence of independent identically distributed \emph{(IID)} random variables and let $\widebar{X}$ be the sample mean; then 
+	\begin{alignat}{4}
+		\widebar{X}:S^n\to \mathbb{R}
+	\end{alignat}
+	so that $S^n$ is the sample space underlying the random variable. 
+\end{remark}
+
+\begin{proposition}
+	Suppose that $\set{X_i}$ are IID random variables with expected value $\mu$ and variance $\sigma^2$; then 
+	\begin{enumerate}
+		\item $E[\widebar{X}] = \mu$ 
+		\item $\var{\widebar{X}} = \frac{\sigma^2}{n}$
+		\item $\cov{\widebar{X}, X_i-\widebar{X}} = 0$
+	\end{enumerate}
+\end{proposition}
+
+\section{Joint Probability Distribution of Functions of Random Variables}
+
+\begin{theorem}[Joint Probability Distribution of Functions of Random Variables]
+	Let $X_1$, $X_2$ be jointly continuous random variables with joint PDF $f(x_1, x_2)$. Suppose $Y_1=g_1(X_1, X_2)$ and $Y_2=g_2(X_1, X_2)$ be random variables for some functions $g_1$, $g_2$. Let $x_1$ and $x_2$ be solvable in terms of $g_1$ and $g_2$ and let the Jacobian $J(x_1, x_2)$ exist at all points; then
+	\begin{alignat}{4}
+		f_{Y_1, Y_2}(y_1, y_2)=f_{X_1, X_2}(x_1, x_2)\left|J(x_1, x_2)\right|^{-1}
+	\end{alignat}
+\end{theorem}
+
+\section{Moment Generating Function}
+
+\begin{definition}[Moment Generating Function]\index{moment generating function}
+	Let $X$ be a random variable and define $\phi(t)=E\left[e^{tX}\right]$; then $\phi(t)$ is called the moment generating function of $X$. 
+\end{definition}
+
+\begin{theorem}
+	Let $X$ be a random variable and let $\phi(t)$ be the moment generating function, then the $n^{th}$ moment of $X$ is 
+	\begin{alignat}{4}
+		\phi^{(n)}(0)
+	\end{alignat}
+\end{theorem}
+
+\begin{theorem}
+	Let $X$ be a random variable then the moment generating function uniquely determines the distribution of $X$. 
+\end{theorem}
 
 \clearpage
 \addcontentsline{toc}{chapter}{Index}
