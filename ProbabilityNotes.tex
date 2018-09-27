@@ -1337,6 +1337,53 @@ Let $\set{X_i}_{i=1}^\infty$ be a sequence of independent random variables havin
 	\end{proof}
 \end{problem}
 
+\begin{problem}[\S 2 \# 72]
+	Show that $\var{X}=1$ when $X$ is the number of men who selected their own hats in the following problem.
+	
+	A party of $N$ men throw their hats into the center of the room. The hats are mixed up and each man randomly selects one. Find the expected number of men who select their own hats. 
+	
+	Recall in the solution that $E[X]=1$. Recall also that 
+	\begin{alignat}{4}
+		\cov{X, Y}&=E[XY]-E[X]E[Y]
+	\end{alignat}
+	
+	So now consider the $X_i$ events, each of which have $p=\frac{1}{N}$. 
+	\begin{alignat}{4}
+		E[X_iX_j]&=P\set{X_i=1}P\set{X_j=1\mid X_i=1} \\
+			&=\frac{1}{N}\cdot \frac{1}{N-1}
+	\end{alignat}
+	since if $X_i=0$ then the product is empty and if $X_i=1$ then there are $N-1$ hats for $X_j$ to choose from. Meanwhile, $E[X_i]=\frac{1}{N}$. 
+	
+	So 
+	\begin{alignat}{4}
+		\cov{X_i, X_j} &= \frac{1}{N}\frac{1}{N-1} - \frac{1}{N^2} \\
+			&=\frac{1}{N(N-1)}-\frac{1}{N^2} \\
+			&=\frac{N}{N^2(N-1)}-\frac{N-1}{N^2(N-1)} \\
+			&=\frac{1}{N^2(N-1)}
+	\end{alignat}
+	
+	Now we use the identity 
+	\begin{alignat}{4}
+		\var{\sum_{k=1}^N X_i}&=\sum_{k=1}^N \var{X_i} + 2\sum_{j=1}^N\sum_{k<j}\cov{X_i, X_j}
+	\end{alignat}
+	with
+	\begin{alignat}{4}
+		\var{X_i}&=\frac{1}{N}\frac{N-1}{N} \\
+			&=\frac{N-1}{N^2}
+	\end{alignat}
+
+	So now we compute 
+	\begin{alignat}{4}
+		\var{\sum_{k=1}^N X_i}&=\sum_{k=1}^N \var{X_i} + 2\sum_{j=1}^N\sum_{k<j}\cov{X_i, X_j} \\
+			&=N\frac{N-1}{N^2} + 2 \frac{N(N+1)}{2}\frac{1}{N^2(N-1)} \\
+			&=\frac{N-1}{N}+\frac{1}{N} \\
+			&=\frac{N}{N} \\
+			&=1
+	\end{alignat}	
+
+
+\end{problem}
+
 \chapter{Conditional Probability and Conditional Expectation}
 
 \section{The Discrete Case}
@@ -1347,6 +1394,76 @@ Let $\set{X_i}_{i=1}^\infty$ be a sequence of independent random variables havin
 		P(E\mid F)&=\frac{P(EF)}{P(F)}
 	\end{alignat}
 \end{remark}
+
+\begin{definition}[Conditional Probability Mass Function]\index{conditional probability mass function}\index{probability mass function!conditional}
+	Let $X$ and $Y$ be discrete random variables then the \emph{conditional probability mass function} is given by 
+	\begin{alignat}{4}
+		p_{X\mid Y}(x\mid y)&=P\set{X=x\mid Y=y} \\
+			&=\frac{p(x, y)}{p_Y(y)}
+	\end{alignat}
+	for all values of $y$ such that $P\set{Y=y}\neq 0$. 
+\end{definition}
+
+\begin{definition}[Conditional Cumulative Distribution Function]\index{conditional cumulative distribution function}\index{cumulative distribution function!conditional}
+	Let $X$ and $Y$ be discrete random variables, the \emph{conditional cumulative distribution function} of $X$ given $Y=y$, for all $y$ such that $P\set{Y=y}\neq 0$ is defined by 
+	\begin{alignat}{4}
+		F_{X\mid Y}(x\mid y)&=P\set{X\leq x\mid Y=y} \\
+			&=\sum_{a\leq x}p_{X\mid Y}(a\mid y)
+	\end{alignat}
+\end{definition}
+
+\begin{definition}[Discrete Conditional Expectation]\index{expectation!discrete conditional}\index{discrete conditional expectation}
+	The \emph{conditional expectation} of $X$ given that $Y=y$ is given by 
+	\begin{alignat}{4}
+		E[X\mid Y=y]&=\sum_{x}xP\set{X=x\mid Y=y} \\
+			&=\sum_{x} xp_{X\mid Y}(x\mid y)
+	\end{alignat}
+\end{definition}
+
+\section{The Continuous Case}
+
+\begin{definition}[Conditional Probability Distribution Function]\index{conditional probability distribution function}\index{probability distribution function!conditional}
+	Let $X$ and $Y$ be discrete random variables then the \emph{conditional probability distribution function} is given by 
+	\begin{alignat}{4}
+		f_{X\mid Y}(x\mid y)&=\frac{f(x, y)}{f_Y(y)}
+	\end{alignat}
+	for all values of $y$ such that $P\set{Y=y}\neq 0$. 
+\end{definition}
+
+\begin{definition}[Continuous Conditional Expectation]\index{expectation!continuous conditional}\index{continuous conditional expectation}
+	The \emph{conditional expectation} of $X$ given that $Y=y$ is given by 
+	\begin{alignat}{4}
+		E[X\mid Y=y]&=\int_{\mathbb{R}}xf_{X\mid Y}(x\mid y)~dx
+	\end{alignat}
+\end{definition}
+
+\section{Computing Expectations by Conditioning}
+
+\begin{definition}[Conditional Expectation]\index{expectation!conditional}
+	Let $X$ and $Y$ be random variables then 
+	\begin{alignat}{4}
+		E[X]=E[E[X\mid Y]]
+	\end{alignat}
+\end{definition}
+
+\begin{remark}
+	Note that $E[X\mid Y]$ is a function of the random variable $Y$, we can write it $Y(y)=E[X\mid Y=y]$ and thus $E[X\mid Y]$ is a random variable itself. 
+\end{remark}
+
+\begin{remark}
+	If $X$ and $Y$ are discrete random variables then 
+	\begin{alignat}{4}
+		E[X]=\sum_{y} E[X\mid Y=y]P\set{Y=y}
+	\end{alignat}
+\end{remark}
+
+\begin{remark}
+	If $X$ and $Y$ are continuous random variables then 
+	\begin{alignat}{4}
+		E[X]=\int_\mathbb{R} E[X\mid Y=y]f_Y(y)dy
+	\end{alignat}
+\end{remark}
+
 
 
 \clearpage
