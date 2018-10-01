@@ -583,6 +583,12 @@
 	Suppose we conduct an experiment with probability of success $p$ and probability of failure $1-p$ then the random variable $X$ given by equations \ref{Eqn:2.1} and \ref{Eqn:2.2} is a Bernoulli random variable. 
 \end{remark}
 
+\subsection{Categorial Distribution}
+
+\begin{definition}[Categorial Distribution]\index{categorial distribution}\index{distribution!categorial}
+	Let $X$ be a random variable representing the outcome of a trial that has $n$ different possible outcomes each with probability $p_n$ of success such that $P{X=k}=p_k$ then $X$ is said to be of the \emph{categorial distribution}
+\end{definition}
+
 \subsection{Binomail Random Variable}
 \begin{definition}[Binomial Random Variable]\index{binomial random variable}\index{random variable!binomial}
 	Suppose we conduct $n$ identical independent Bernoulli trails with probability of success $p$, if we let $X$ be the random variable that indicates the number of successes that occur in the $n$ trials then $X$ is said to be a binomial random variable with parameters $(n, p)$ and is characterized by the probability mass function
@@ -590,6 +596,39 @@
 		p(i)=\binom{n}{i}p^i(1-p)^{n-i}
 	\end{alignat}
 	for $i\in \left\{0, \dots, n\right\}$. 
+\end{definition}
+
+\subsection{Multinomial Distribution}
+
+\begin{remark}[Multinomial]\index{multinomial}
+	The binomial $\binom{n}{k}$ arrises from the coefficients from $(x+y)^n$. We may extend this to the case of
+	\begin{alignat}{4}
+		(x_1+x_2+\dots +x_m)^n=\sum_{k_1+k_2+\dots +k_m=n}\binom{n}{k_1, k_2, \dots, k_m}\prod_{t=1}^m x_t^{k_t}
+	\end{alignat}
+	where
+	\begin{alignat}{4}
+		\binom{n}{k_1, k_2, \dots, k_m}
+	\end{alignat}
+	represents the coefficients of the terms in the expansion of the expression. 
+\end{remark}
+
+\begin{definition}[Multinomial Coefficient]\index{multinomial coefficient}
+	The coefficient of the terms in the expansion of $(x_1+x_2+\dots +x_m)^n$, denoted by 
+	\begin{alignat}{4}
+		\binom{n}{k_1, k_2, \dots, k_m}
+	\end{alignat}
+	is called the multinomial coefficient and is defined by
+	\begin{alignat}{4}
+		\binom{n}{k_1, k_2, \dots, k_m}=\frac{n!}{\prod_{t=1}^m (k_t!)}
+	\end{alignat}
+\end{definition}
+
+\begin{definition}[Multinomial Distribution]\index{multinomial distribution}
+	Suppose we conduct $n$ identical independent categorical trials with probabilities of success $p_k$ for each of $m$ possible outcomes, if we let $X$ be the random variable that indicates the number of successes that occur in the $n$ trials for each of the $m$ possible outcomes. The domain for the distribution is 
+	\begin{alignat}{4}
+		\set{0, \dots, n}^m
+	\end{alignat}
+	such that $\sum X_k=n$ where $X$ is a vector over the $X_1, \dots, X_k$. 
 \end{definition}
 
 \subsection{The Geometric Random Variable}
@@ -1464,7 +1503,173 @@ Let $\set{X_i}_{i=1}^\infty$ be a sequence of independent random variables havin
 	\end{alignat}
 \end{remark}
 
+\subsection{computing Variances by Conditioning}
 
+\begin{remark}
+	Recall that $\var{X} = E\left[X^2\right] - \paren{E[X]}^2$; so we can compute variances by computing expectations by conditioning. 
+\end{remark}
+
+\begin{proposition}[The Conditional Variance Formula]
+	\begin{alignat}{4}
+		\var{X} = E\left[\var{X\mid Y}\right] + \var{E[X\mid Y]}
+	\end{alignat}
+\end{proposition}
+
+\section{Compound Random Variables}
+
+\begin{definition}[Compound Random Variable]\index{random variable!compound}\index{compound random variable}\index{compounding distribution}
+	Let $\set{X_k}$ be a sequence of independent identically distributed random variables and let $N$ be a non-negative integer valued random variable that is independent of the sequence $\set{X_k}$; then
+	\begin{alignat}{4}
+		S_N=\sum_{i=1}^N X_i
+	\end{alignat}
+	is said to be a \emph{compound random variable} with the distribution of $N$ called the \emph{compounding distribution}. 
+	
+\end{definition}
+
+\begin{proposition}
+	Let $h$ be any function and let $M$ be a random variable, independent of $\set{X_k}$ such that 
+	\begin{alignat}{4}
+		P\set{M=n}=\frac{nP\set{N=n}}{E[N]}
+	\end{alignat} 
+	then 
+	\begin{alignat}{4}
+		E[S_Nh(S_N)] = E[N]E[X_1h(S_m)]
+	\end{alignat}
+\end{proposition}
+
+\begin{corollary}
+	Suppose that the $\set{X_k}$ are positive integer valued random variables and let 
+	\begin{alignat}{4}
+		\alpha_j=P\set{X_1=j},&\hspace{1 cm}j>0
+	\end{alignat}
+	then 
+	\begin{alignat}{4}
+		P\set{S_n=0}=P\set{N=0}
+	\end{alignat}
+	and 
+	\begin{alignat}{4}
+		P\set{S_n=k}=\frac{1}{k}E[N]\sum_{j=1}^k j\alpha_jP\set{S_{M-1}=k-j},&\hspace{1 cm}k>0
+	\end{alignat}
+\end{corollary}
+
+\section{Problems}
+
+\begin{problem}[\S 3 \# 2]
+	Let $X_1$ and $X_2$ be independent geometric random variables having the same parameter $p$. Guess the value of 
+	\begin{alignat}{4}
+		P\set{X_1=i\mid X_1+X_2=n}
+	\end{alignat}
+	Verify this guess
+	\begin{proof}[Solution]
+		Suppose that $i=1$ then $P\set{X_1=1}=p$ but then $X_2=n-1$ and $P\set{X_2=n-1}=(1-p)^{n-2}p$. If $i=2$ then $P\set{X_1=2}$ adds a factor of $(1-p)$ and $P\set{X_2=n-2}$ removes a factor of $(1-p)$ and so forth, so we hypothesize that $P\set{X_1=i\mid X_1+X_2=n}$ is identical for all $i<n$.
+		
+		We compute using the definitions
+		\begin{alignat}{4}
+			P\set{X_1=i\mid X_1+X_2=n}&=\frac{P\set{X_1=i,~X_1+X_2=n}}{P\set{X_1+X_2=n}}
+		\end{alignat} 
+		We find
+		\begin{alignat}{4}
+			P\set{X_1+X_2=n}&=\sum_{k=1}^{n-1}P\set{X_1=k}P\set{X_2=n-k} \\
+				&=\sum_{k=1}^{n-1}(1-p)^{k-1}p(1-p)^{n-k-1}p \\
+				&=\sum_{k=1}^{n-1}(1-p)^{n-2}p^2 \\
+				&=p^2(n-1)(1-p)^{n-2}
+		\end{alignat}
+		and
+		\begin{alignat}{4}
+			P\set{X_1=i, X_1+X_2=n}&=(1-p)^{i-1}p(1-p)^{n-i-1}p \\
+				&=p^2(1-p)^{n-2}
+		\end{alignat}
+		therefore
+		\begin{alignat}{4}
+			P\set{X_1=i\mid X_1+X_2=n}&=\frac{p^2(1-p)^{n-2}}{p^2(n-1)(1-p)^{n-2}} \\
+				&=\frac{1}{n-1}
+		\end{alignat}
+		which is not, in fact, dependent on $i$ and sums over the $n-1$ possibilities to $1$ as expected. 
+	\end{proof}
+\end{problem}
+
+\begin{problem}[\S 3 \# 6]
+	An urn contains three white, six red, and fix black balls. Six of these balls are randomly selected from the urn, their color noted and the ball replaced. Let $X$ and $Y$ denote respectively the number of white and black balls selected. Compute the conditional probability mass function of $X$ given that $Y=3$. Compute $E[X\mid Y=1]$ 
+	\begin{proof}[Solution]
+		First we compute the conditional probability of $X$ given that $Y=3$. Each draw is from a categorical distribution with probabilities $\frac{3}{14}$, $\frac{6}{14}$ and $\frac{5}{14}$. Since we can fix $Y=b=3$ we can then fix $r=3-w$ and we write 
+		\begin{alignat}{4}
+			p(x, 3)&=\binom{6}{x, 3-x, 3}\paren{\frac{3}{14}}^x\paren{\frac{6}{14}}^{3-x}\paren{\frac{5}{14}}^3
+		\end{alignat}
+		Now we compute $p_Y(3)$; this is the binomial distribution for $p=\frac{5}{14}$
+		\begin{alignat}{4}
+			p_Y(3)&=\binom{6}{3}\paren{\frac{5}{14}}^3\paren{\frac{9}{14}}^3
+		\end{alignat}
+		So
+		\begin{alignat}{4}
+			p_{X\mid Y}(x|y=3)=\frac{\binom{6}{x, 3-x, 3}\paren{\frac{3}{14}}^x\paren{\frac{6}{14}}^{3-x}\paren{\frac{5}{14}}^3}{\binom{6}{3}\paren{\frac{5}{14}}^3\paren{\frac{9}{14}}^3}
+		\end{alignat}
+			
+		Now, lets compute $E[X\mid Y=1]$; again we can fix $y=1$ thus $r=5-x$ so we can compute 
+		\begin{alignat}{4}
+			E[X\mid Y=1]&=\sum_{k=0}^5 k\cdot \frac{ \binom{6}{k, 5-k, 1}\paren{\frac{3}{14}}^k\paren{\frac{6}{14}}^{5-k}\paren{\frac{5}{14}}^1}{\binom{6}{1}\paren{\frac{5}{14}}^1\paren{\frac{9}{14}}^5}
+				&=\frac{5}{3}
+		\end{alignat}
+	\end{proof}
+\end{problem}
+
+\begin{problem}[\S 3 \# 13]
+	Let $X$ be exponential with mean $\frac{1}{\lambda}$; that is 
+	\begin{alignat}{4}
+		f_X(x)=\lambda e^{-\lambda x},\hspace{1 cm}x>0
+	\end{alignat}
+	Find $E[X\mid X>1]$
+	\begin{proof}[Solution]
+		We note that 
+		\begin{alignat}{4}
+			P \set{X>1}&=\int_1^\infty \lambda e^{-\lambda x} dx \\
+				&=e^{-\lambda}
+		\end{alignat}
+		and 
+		\begin{alignat}{4}
+			f_{X\mid X>1}(x)&=\frac{f(x)}{P\set{X>1}} \\
+				&=\frac{\lambda e^{-\lambda x}}{ e^{-\lambda }} \\
+				&=\lambda e^{\lambda(1-x)}
+		\end{alignat}
+		so 
+		\begin{alignat}{4}
+			E[X\mid X>1]&=\int_1^\infty x \lambda e^{\lambda(1-x)} dx \\
+		\end{alignat}
+		We integrate by parts. Let 
+		\begin{alignat}{5}
+				u&=x&\hspace{1 cm}&dv &=& \lambda e^{\lambda(1-x)}dx \\
+				du&=dx&\hspace{1 cm}&v &=& -e^{\lambda(1-x)}
+		\end{alignat}
+		So 
+		\begin{alignat}{4}
+			\int_1^\infty x \lambda e^{\lambda(1-x)} dx&=\int_{x=1}^\infty udv \\
+				&=\left. uv\right|_{x=1}^\infty - \int_{x=1}^\infty v du \\
+				&=\left. -xe^{\lambda(1-x)} \right|_{x=1}^\infty -\int_{x=1}^\infty -e^{\lambda(1-x)} dx \\
+				&=\left. -xe^{\lambda(1-x)} \right|_{x=1}^\infty +\left. \frac{1}{\lambda} e^{\lambda(1-x)}\right|_{x=1}^\infty \\
+				&=1+\frac{1}{\lambda}
+		\end{alignat}
+	\end{proof}
+\end{problem}
+
+\begin{problem}[\S 3 \# 19]
+	Prove that if $X$ and $Y$ are jointly continuous, then 
+	\begin{alignat}{4}
+		E[X]=\int_{-\infty}^\infty E[X\mid Y=y]f_Y(y)dy
+	\end{alignat}
+	\begin{proof}[Solution]
+		We compute
+		\begin{alignat}{4}
+			\int_{-\infty}^\infty E[X\mid Y=y]f_y(y)dy&=\int_{-\infty}^\infty \int_{-\infty}^\infty xf_{X\mid Y}(x\mid y)dx f_Y(y) dy \label{Eqn:3.19.1} \\
+				&=\int_{-\infty}^\infty \int_{-\infty}^\infty x f_{X\mid Y}(x\mid y)f_Y(y)dx dy \\
+				&=\int_{-\infty}^\infty \int_{-\infty}^\infty x \frac{f(x, y)}{f_Y(y)} f_Y(y) dx dy \\
+				&=\int_{-\infty}^\infty \int_{-\infty}^\infty x f(x, y) dx dy \\
+				&=\int_{-\infty}^\infty \int_{-\infty}^\infty x f(x, y) dy dx \\
+				&=\int_{-\infty}^\infty x \int_{-\infty}^\infty f(x, y) dy dx \\
+				&=\int_{-\infty}^\infty x f_X(x) dx \label{Eqn:3.19.2} \\ 
+				&=E[X]
+		\end{alignat}
+		Where equation \ref{Eqn:3.19.1} follows from the definition of $E[X\mid Y=y]$ and equantion \ref{Eqn:3.19.2} follows from the derivation of $f_X(x)$ from the joint probability distribution $f(x, y)$ by integrating over all $y$
+	\end{proof}
+\end{problem}
 
 \clearpage
 \addcontentsline{toc}{chapter}{Index}
